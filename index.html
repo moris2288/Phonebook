@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیستم مدیریت شماره‌های تماس - دپارتمان املاک خان احمدی</title>
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --danger-color: #f44336;
+            --warning-color: #ff9800;
+            --info-color: #2196F3;
+            --dark-color: #333;
+            --light-color: #f9f9f9;
+        }
+        
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-radius: 5px 5px 0 0;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        
+        .upload-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .stats-section {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+        
+        .stat-box {
+            flex: 1;
+            min-width: 200px;
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stat-box h3 {
+            margin-top: 0;
+            color: var(--dark-color);
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .total {
+            color: var(--dark-color);
+        }
+        
+        .success {
+            color: var(--primary-color);
+        }
+        
+        .failed {
+            color: var(--danger-color);
+        }
+        
+        .telegram {
+            color: var(--info-color);
+        }
+        
+        .whatsapp {
+            color: #25D366;
+        }
+        
+        .phone-list {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: right;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: var(--dark-color);
+            color: white;
+            font-weight: bold;
+        }
+        
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .action-btn {
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .success-btn {
+            background-color: var(--primary-color);
+        }
+        
+        .success-btn:hover {
+            background-color: #3e8e41;
+        }
+        
+        .failed-btn {
+            background-color: var(--danger-color);
+        }
+        
+        .failed-btn:hover {
+            background-color: #d32f2f;
+        }
+        
+        .telegram-btn {
+            background-color: var(--info-color);
+        }
+        
+        .telegram-btn:hover {
+            background-color: #0b7dda;
+        }
+        
+        .whatsapp-btn {
+            background-color: #25D366;
+        }
+        
+        .whatsapp-btn:hover {
+            background-color: #1da851;
+        }
+        
+        .export-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--dark-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            margin: 5px;
+        }
+        
+        .btn:hover {
+            background-color: #555;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: #3e8e41;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger-color);
+        }
+        
+        .btn-danger:hover {
+            background-color: #d32f2f;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .file-label {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--info-color);
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .file-label:hover {
+            background-color: #0b7dda;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            border-radius: 0 0 5px 5px;
+            font-size: 14px;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .stats-section {
+                flex-direction: column;
+            }
+            
+            th, td {
+                padding: 8px 10px;
+                font-size: 14px;
+            }
+            
+            .action-btn {
+                padding: 3px 6px;
+                font-size: 12px;
+            }
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 5px;
+        }
+        
+        .close {
+            color: #aaa;
+            float: left;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: black;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .save-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .save-btn:hover {
+            background-color: #3e8e41;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>سیستم مدیریت شماره‌های تماس - دپارتمان املاک خان احمدی</h1>
+        </header>
+        
+        <div class="upload-section">
+            <h2>بارگذاری شماره‌ها</h2>
+            <p>حداکثر ظرفیت بارگذاری: 20,000 شماره</p>
+            <input type="file" id="fileInput" class="file-input" accept=".txt">
+            <label for="fileInput" class="file-label">انتخاب فایل TXT</label>
+            <span id="fileName"></span>
+            <button id="uploadBtn" class="btn btn-primary">بارگذاری شماره‌ها</button>
+            <div id="uploadStatus"></div>
+        </div>
+        
+        <div class="stats-section">
+            <div class="stat-box">
+                <h3>تعداد کل شماره‌ها</h3>
+                <div class="stat-value total" id="totalCount">0</div>
+                <p>از 20,000 ظرفیت</p>
+            </div>
+            <div class="stat-box">
+                <h3>تماس‌های موفق</h3>
+                <div class="stat-value success" id="successCount">0</div>
+                <p>شماره</p>
+            </div>
+            <div class="stat-box">
+                <h3>تماس‌های ناموفق</h3>
+                <div class="stat-value failed" id="failedCount">0</div>
+                <p>شماره</p>
+            </div>
+            <div class="stat-box">
+                <h3>دارای تلگرام</h3>
+                <div class="stat-value telegram" id="telegramCount">0</div>
+                <p>شماره</p>
+            </div>
+            <div class="stat-box">
+                <h3>دارای واتس‌اپ</h3>
+                <div class="stat-value whatsapp" id="whatsappCount">0</div>
+                <p>شماره</p>
+            </div>
+        </div>
+        
+        <div class="phone-list">
+            <table id="phoneTable">
+                <thead>
+                    <tr>
+                        <th>ردیف</th>
+                        <th>شماره تماس</th>
+                        <th>نام</th>
+                        <th>نام خانوادگی</th>
+                        <th>وضعیت</th>
+                        <th>اقدامات</th>
+                    </tr>
+                </thead>
+                <tbody id="phoneTableBody">
+                    <!-- Phone numbers will be added here dynamically -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="export-section">
+            <h2>ذخیره لیست‌ها</h2>
+            <button id="exportSuccessBtn" class="btn btn-primary">ذخیره تماس‌های موفق</button>
+            <button id="exportFailedBtn" class="btn btn-danger">ذخیره تماس‌های ناموفق</button>
+            <button id="exportTelegramBtn" class="btn" style="background-color: var(--info-color);">ذخیره دارای تلگرام</button>
+            <button id="exportWhatsappBtn" class="btn" style="background-color: #25D366;">ذخیره دارای واتس‌اپ</button>
+        </div>
+    </div>
+    
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>ویرایش اطلاعات</h2>
+            <div class="form-group">
+                <label for="editPhone">شماره تماس:</label>
+                <input type="text" id="editPhone" readonly>
+            </div>
+            <div class="form-group">
+                <label for="editFirstName">نام:</label>
+                <input type="text" id="editFirstName">
+            </div>
+            <div class="form-group">
+                <label for="editLastName">نام خانوادگی:</label>
+                <input type="text" id="editLastName">
+            </div>
+            <button id="saveEditBtn" class="save-btn">ذخیره</button>
+        </div>
+    </div>
+    
+    <footer>
+        تمامی حقوق و مالکیت این صفحه محفوظ و متعلق به دپارتمان املاک خان احمدی می‌باشد<br>
+        09116691558
+    </footer>
+    
+    <script>
+        // Global variables
+        let phoneNumbers = [];
+        let currentEditIndex = -1;
+        
+        // DOM elements
+        const fileInput = document.getElementById('fileInput');
+        const fileName = document.getElementById('fileName');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const uploadStatus = document.getElementById('uploadStatus');
+        const phoneTableBody = document.getElementById('phoneTableBody');
+        const totalCount = document.getElementById('totalCount');
+        const successCount = document.getElementById('successCount');
+        const failedCount = document.getElementById('failedCount');
+        const telegramCount = document.getElementById('telegramCount');
+        const whatsappCount = document.getElementById('whatsappCount');
+        const exportSuccessBtn = document.getElementById('exportSuccessBtn');
+        const exportFailedBtn = document.getElementById('exportFailedBtn');
+        const exportTelegramBtn = document.getElementById('exportTelegramBtn');
+        const exportWhatsappBtn = document.getElementById('exportWhatsappBtn');
+        const editModal = document.getElementById('editModal');
+        const editPhone = document.getElementById('editPhone');
+        const editFirstName = document.getElementById('editFirstName');
+        const editLastName = document.getElementById('editLastName');
+        const saveEditBtn = document.getElementById('saveEditBtn');
+        const closeBtn = document.querySelector('.close');
+        
+        // Event listeners
+        fileInput.addEventListener('change', handleFileSelect);
+        uploadBtn.addEventListener('click', uploadNumbers);
+        exportSuccessBtn.addEventListener('click', () => exportNumbers('success'));
+        exportFailedBtn.addEventListener('click', () => exportNumbers('failed'));
+        exportTelegramBtn.addEventListener('click', () => exportNumbers('telegram'));
+        exportWhatsappBtn.addEventListener('click', () => exportNumbers('whatsapp'));
+        closeBtn.addEventListener('click', () => editModal.style.display = 'none');
+        saveEditBtn.addEventListener('click', saveEdit);
+        window.addEventListener('click', (event) => {
+            if (event.target === editModal) {
+                editModal.style.display = 'none';
+            }
+        });
+        
+        // Functions
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                fileName.textContent = file.name;
+            }
+        }
+        
+        function uploadNumbers() {
+            const file = fileInput.files[0];
+            if (!file) {
+                uploadStatus.textContent = 'لطفا یک فایل انتخاب کنید';
+                uploadStatus.style.color = 'red';
+                return;
+            }
+            
+            if (file.type !== 'text/plain' && !file.name.endsWith('.txt')) {
+                uploadStatus.textContent = 'لطفا یک فایل متنی (TXT) انتخاب کنید';
+                uploadStatus.style.color = 'red';
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const content = e.target.result;
+                const lines = content.split('\n');
+                
+                // Clear previous data
+                phoneNumbers = [];
+                
+                // Process each line
+                let validCount = 0;
+                for (let line of lines) {
+                    line = line.trim();
+                    if (line) {
+                        // Simple phone number validation (Iranian numbers)
+                        if (/^(\+98|0)?9\d{9}$/.test(line)) {
+                            // Normalize phone number to start with 0
+                            let normalizedPhone = line.startsWith('+98') ? '0' + line.substring(3) :
+                                                line.startsWith('98') ? '0' + line.substring(2) :
+                                                line.startsWith('9') ? '0' + line : line;
+                            
+                            phoneNumbers.push({
+                                phone: normalizedPhone,
+                                firstName: '',
+                                lastName: '',
+                                status: 'pending', // pending, success, failed
+                                hasTelegram: false,
+                                hasWhatsapp: false
+                            });
+                            validCount++;
+                        }
+                    }
+                }
+                
+                if (validCount > 20000) {
+                    uploadStatus.textContent = `تعداد شماره‌ها (${validCount}) بیش از حد مجاز (20,000) است`;
+                    uploadStatus.style.color = 'red';
+                    return;
+                }
+                
+                uploadStatus.textContent = `تعداد ${validCount} شماره معتبر یافت شد و بارگذاری شد`;
+                uploadStatus.style.color = 'green';
+                
+                // Update UI
+                updatePhoneTable();
+                updateStats();
+            };
+            reader.readAsText(file);
+        }
+        
+        function updatePhoneTable() {
+            phoneTableBody.innerHTML = '';
+            
+            phoneNumbers.forEach((number, index) => {
+                const row = document.createElement('tr');
+                
+                // Status badge
+                let statusBadge = '';
+                if (number.status === 'success') {
+                    statusBadge = '<span class="status-badge" style="background-color: var(--primary-color);">موفق</span>';
+                } else if (number.status === 'failed') {
+                    statusBadge = '<span class="status-badge" style="background-color: var(--danger-color);">ناموفق</span>';
+                } else {
+                    statusBadge = '<span class="status-badge" style="background-color: var(--warning-color);">در انتظار</span>';
+                }
+                
+                // Add social media badges
+                let socialBadges = '';
+                if (number.hasTelegram) {
+                    socialBadges += '<span class="status-badge" style="background-color: var(--info-color); margin-left: 5px;">تلگرام</span>';
+                }
+                if (number.hasWhatsapp) {
+                    socialBadges += '<span class="status-badge" style="background-color: #25D366; margin-left: 5px;">واتساپ</span>';
+                }
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${number.phone}</td>
+                    <td>${number.firstName}</td>
+                    <td>${number.lastName}</td>
+                    <td>${statusBadge} ${socialBadges}</td>
+                    <td>
+                        <button class="action-btn success-btn" data-index="${index}" data-action="success">موفق</button>
+                        <button class="action-btn failed-btn" data-index="${index}" data-action="failed">ناموفق</button>
+                        <button class="action-btn telegram-btn" data-index="${index}" data-action="telegram">تلگرام</button>
+                        <button class="action-btn whatsapp-btn" data-index="${index}" data-action="whatsapp">واتساپ</button>
+                        <button class="action-btn" data-index="${index}" data-action="edit" style="background-color: var(--dark-color);">ویرایش</button>
+                    </td>
+                `;
+                
+                phoneTableBody.appendChild(row);
+            });
+            
+            // Add event listeners to action buttons
+            document.querySelectorAll('.action-btn').forEach(btn => {
+                btn.addEventListener('click', handleAction);
+            });
+        }
+        
+        function handleAction(event) {
+            const index = parseInt(event.target.getAttribute('data-index'));
+            const action = event.target.getAttribute('data-action');
+            
+            if (action === 'success') {
+                phoneNumbers[index].status = 'success';
+            } else if (action === 'failed') {
+                phoneNumbers[index].status = 'failed';
+            } else if (action === 'telegram') {
+                phoneNumbers[index].hasTelegram = !phoneNumbers[index].hasTelegram;
+            } else if (action === 'whatsapp') {
+                phoneNumbers[index].hasWhatsapp = !phoneNumbers[index].hasWhatsapp;
+            } else if (action === 'edit') {
+                currentEditIndex = index;
+                editPhone.value = phoneNumbers[index].phone;
+                editFirstName.value = phoneNumbers[index].firstName;
+                editLastName.value = phoneNumbers[index].lastName;
+                editModal.style.display = 'block';
+                return;
+            }
+            
+            updatePhoneTable();
+            updateStats();
+        }
+        
+        function saveEdit() {
+            if (currentEditIndex >= 0) {
+                phoneNumbers[currentEditIndex].firstName = editFirstName.value;
+                phoneNumbers[currentEditIndex].lastName = editLastName.value;
+                updatePhoneTable();
+                editModal.style.display = 'none';
+                currentEditIndex = -1;
+            }
+        }
+        
+        function updateStats() {
+            totalCount.textContent = phoneNumbers.length;
+            
+            const success = phoneNumbers.filter(n => n.status === 'success').length;
+            const failed = phoneNumbers.filter(n => n.status === 'failed').length;
+            const telegram = phoneNumbers.filter(n => n.hasTelegram).length;
+            const whatsapp = phoneNumbers.filter(n => n.hasWhatsapp).length;
+            
+            successCount.textContent = success;
+            failedCount.textContent = failed;
+            telegramCount.textContent = telegram;
+            whatsappCount.textContent = whatsapp;
+        }
+        
+        function exportNumbers(type) {
+            let filteredNumbers = [];
+            let filename = '';
+            
+            switch (type) {
+                case 'success':
+                    filteredNumbers = phoneNumbers.filter(n => n.status === 'success');
+                    filename = 'successful_numbers.txt';
+                    break;
+                case 'failed':
+                    filteredNumbers = phoneNumbers.filter(n => n.status === 'failed');
+                    filename = 'failed_numbers.txt';
+                    break;
+                case 'telegram':
+                    filteredNumbers = phoneNumbers.filter(n => n.hasTelegram);
+                    filename = 'telegram_numbers.txt';
+                    break;
+                case 'whatsapp':
+                    filteredNumbers = phoneNumbers.filter(n => n.hasWhatsapp);
+                    filename = 'whatsapp_numbers.txt';
+                    break;
+            }
+            
+            if (filteredNumbers.length === 0) {
+                alert(`هیچ شماره‌ای در دسته "${type}" یافت نشد`);
+                return;
+            }
+            
+            // Prepare content
+            let content = '';
+            filteredNumbers.forEach(num => {
+                content += `${num.phone}\t${num.firstName}\t${num.lastName}\n`;
+            });
+            
+            // Create download link
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
